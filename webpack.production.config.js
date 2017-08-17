@@ -170,7 +170,7 @@ module.exports = {
 		]),
 		new HtmlWebpackPlugin({
 			template: "./src/index.html",
-			title: "承泽后台",
+			title: "Galaxy",
 			version: (new GitRevisionWebpackPlugin()).version(),
 			commithash: (new GitRevisionWebpackPlugin()).commithash()
 		})

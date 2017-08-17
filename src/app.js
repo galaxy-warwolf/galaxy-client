@@ -10,6 +10,9 @@ import {Router, Route, useRouterHistory, IndexRoute} from "react-router";
 import {syncHistoryWithStore} from "react-router-redux";
 import {createHashHistory} from "history";
 import {Provider} from "react-redux";
+import {
+	BaseLayout
+} from "./containers/index";
 
 export default class App extends Component {
 
@@ -31,7 +34,7 @@ export default class App extends Component {
 				<div>
 					<Router history={syncHistoryWithStore(useRouterHistory(createHashHistory)(), store)}>
 						<Route path="/" component={BaseLayout}>
-
+						</Route>
 					</Router>
 				</div>
 			</Provider>

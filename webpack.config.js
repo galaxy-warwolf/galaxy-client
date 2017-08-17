@@ -8,7 +8,6 @@ const AutoDllPlugin = require('autodll-webpack-plugin');
 module.exports = {
 	entry: {
 		app: [
-			'eventsource-polyfill', // necessary for hot reloading with IE
 			'webpack-hot-middleware/client?reload=true',
 			'./src/index.js'
 		]
@@ -42,7 +41,6 @@ module.exports = {
 							"transform-decorators-legacy",
 							"add-module-exports",
 							"transform-class-properties",
-							"react-hot-loader/babel",
 							"transform-function-bind"
 						],
 						compact: false
@@ -173,7 +171,7 @@ module.exports = {
 		]),
 		new HtmlWebpackPlugin({
 			template: "./src/index.html",
-			title: "承泽后台",
+			title: "Galaxy",
 			version: (new GitRevisionWebpackPlugin()).version(),
 			commithash: (new GitRevisionWebpackPlugin()).commithash()
 		}),
