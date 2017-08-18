@@ -1,7 +1,7 @@
-import {combineReducers} from "redux";
-import {routerReducer} from "react-router-redux";
-import {reducer as reduxFormReducer} from "redux-form";
-import {LOGOUT_SUCCESS} from "../../common/constants";
+import { combineReducers } from "redux";
+import { routerReducer } from "react-router-redux";
+import { reducer as reduxFormReducer } from "redux-form";
+import { LOGOUT_SUCCESS } from "../../common/constants";
 
 /**
  * combineReducers is important to understand. As your app might grow in size

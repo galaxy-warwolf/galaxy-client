@@ -1,10 +1,10 @@
-import {createStore, applyMiddleware, compose} from "redux";
+import { applyMiddleware, compose, createStore } from "redux";
 import thunk from "redux-thunk";
-import {useRouterHistory} from "react-router";
-import {createHashHistory} from "history";
-import {routerMiddleware} from "react-router-redux";
+import { useRouterHistory } from "react-router";
+import { createHashHistory } from "history";
+import { routerMiddleware } from "react-router-redux";
 import rootReducer from "../reducers";
-import {DevTools} from "../../containers/";
+import { DevTools } from "../../containers/";
 import clientMiddleware from "../middleware/client";
 import ApiClient from "../../common/http-client/ApiClient";
 import persistState from "redux-localstorage";

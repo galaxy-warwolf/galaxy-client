@@ -1,5 +1,5 @@
 import React from "react";
-import {render} from "react-dom";
+import { render } from "react-dom";
 import App from "./app.js";
 import "./styles/main.scss";
 import configureStore from "./redux/config/configureStore";

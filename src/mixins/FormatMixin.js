@@ -1,5 +1,4 @@
 import moment from 'moment';
-import * as _ from 'lodash';
 
 const formatSex = (sex) => {
 	switch (sex) {

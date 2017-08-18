@@ -7,13 +7,11 @@
  */
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Router, Route, useRouterHistory, IndexRoute } from "react-router";
+import { Route, Router, useRouterHistory } from "react-router";
 import { syncHistoryWithStore } from "react-router-redux";
 import { createHashHistory } from "history";
 import { Provider } from "react-redux";
-import {
-	BaseLayout
-} from "./containers/index";
+import { BaseLayout } from "./containers/index";
 
 export default class App extends Component {
 
