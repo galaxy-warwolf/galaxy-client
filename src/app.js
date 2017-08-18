@@ -7,29 +7,25 @@
  */
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Route, Router, useRouterHistory } from "react-router";
-import { syncHistoryWithStore } from "react-router-redux";
+import { Route } from "react-router";
 import { createHashHistory } from "history";
 import { Provider } from "react-redux";
 import { BaseLayout } from "./containers/index";
+import { ConnectedRouter } from 'react-router-redux'
 
 export default class App extends Component {
 
-	componentWillMount() {
-		console.log("Hello App Page");
-	}
-
 	render() {
-		const { store } = this.props;
-
+		const history = createHashHistory();
 		return (
 			<Provider {...this.props}>
-				<div>
-					<Router history={syncHistoryWithStore(useRouterHistory(createHashHistory)(), store)}>
+				{/* ConnectedRouter will use the store from Provider automatically */}
+				<ConnectedRouter history={history}>
+					<div>
 						<Route path="/" component={BaseLayout}>
 						</Route>
-					</Router>
-				</div>
+					</div>
+				</ConnectedRouter>
 			</Provider>
 		)
 	}

@@ -1,6 +1,5 @@
 import { applyMiddleware, compose, createStore } from "redux";
 import thunk from "redux-thunk";
-import { useRouterHistory } from "react-router";
 import { createHashHistory } from "history";
 import { routerMiddleware } from "react-router-redux";
 import rootReducer from "../reducers";
@@ -11,13 +10,15 @@ import persistState from "redux-localstorage";
 
 const client = new ApiClient();
 const clientMiddle = clientMiddleware(client);
+const history = createHashHistory();
+const reduxRouterMiddleware = routerMiddleware(history);
 
 const finalCreateStore = compose(
 	persistState(['auth', 'user']),
 	applyMiddleware(
 		thunk,
 		clientMiddle,
-		routerMiddleware(useRouterHistory(createHashHistory)())
+		reduxRouterMiddleware
 	),
 	window.devToolsExtension ? window.devToolsExtension() : DevTools.instrument()
 )(createStore);
