@@ -5,29 +5,24 @@
  * 路由控制区域
  *
  */
-import React, {Component, PropTypes} from "react";
-import {Router, Route, useRouterHistory, IndexRoute} from "react-router";
-import {syncHistoryWithStore} from "react-router-redux";
-import {createHashHistory} from "history";
-import {Provider} from "react-redux";
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { Router, Route, useRouterHistory, IndexRoute } from "react-router";
+import { syncHistoryWithStore } from "react-router-redux";
+import { createHashHistory } from "history";
+import { Provider } from "react-redux";
 import {
 	BaseLayout
 } from "./containers/index";
 
 export default class App extends Component {
 
-	static propTypes() {
-		return {
-			store: PropTypes.object.isRequired
-		};
-	}
-
 	componentWillMount() {
 		console.log("Hello App Page");
 	}
 
 	render() {
-		const {store} = this.props;
+		const { store } = this.props;
 
 		return (
 			<Provider {...this.props}>
@@ -41,3 +36,8 @@ export default class App extends Component {
 		)
 	}
 }
+
+// https://github.com/facebook/prop-types#prop-types
+App.propTypes = {
+	store: PropTypes.object.isRequired
+};
