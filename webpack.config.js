@@ -41,7 +41,8 @@ module.exports = {
 							"transform-decorators-legacy",
 							"add-module-exports",
 							"transform-class-properties",
-							"transform-function-bind"
+							"transform-function-bind",
+							["import", { libraryName: "antd", style: "css" }]
 						],
 						compact: false
 					}
@@ -71,7 +72,23 @@ module.exports = {
 						}
 					}
 				]
-			}, {
+			},
+			{
+				test: /\.css($|\?)/,
+				use: [
+					{
+						loader: "style-loader"
+					},
+					{
+						loader: "css-loader",
+						options: {
+							sourceMap: true,
+							localIdentName: '[name]--[local]--[hash:base64:5]'
+						}
+					}
+				]
+			}
+			, {
 				test: /\.png($|\?)/,
 				use: [{
 					loader: "url-loader",
@@ -196,7 +213,8 @@ module.exports = {
 					"redux-form",
 					"redux-localstorage",
 					"redux-thunk",
-					"superagent"
+					"superagent",
+					"antd"
 				]
 			}
 		})

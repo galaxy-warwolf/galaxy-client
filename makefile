@@ -12,5 +12,5 @@ build-ci:
 build-live:
 	@env-cmd config/prod.json webpack --config webpack.production.config.js --progress --profile --colors;
 
-pre-deploy:
+pre-deploy:build-ci
 	@http-server ./dist;
