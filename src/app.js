@@ -7,11 +7,11 @@
  */
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Route } from "react-router";
+import { Route, Switch } from "react-router";
 import { createHashHistory } from "history";
 import { Provider } from "react-redux";
-import { BaseLayout } from "./containers/index";
 import { ConnectedRouter } from 'react-router-redux'
+import { Home, Login, NoMatch } from "./containers"
 
 export default class App extends Component {
 
@@ -22,8 +22,11 @@ export default class App extends Component {
 				{/* ConnectedRouter will use the store from Provider automatically */}
 				<ConnectedRouter history={history}>
 					<div>
-						<Route path="/" component={BaseLayout}>
-						</Route>
+						<Switch>
+							<Route exact path="/" component={Home}/>
+							<Route path="/login" component={Login}/>
+							<Route component={NoMatch}/>
+						</Switch>
 					</div>
 				</ConnectedRouter>
 			</Provider>

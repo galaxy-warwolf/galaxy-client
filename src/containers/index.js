@@ -10,3 +10,9 @@
 export DevTools from './tools/DevTools';
 
 export BaseLayout from './base/Base';
+
+export Login from './login/Login';
+
+export Home from './home/Home';
+
+export NoMatch from './noMatch/NoMatch';
