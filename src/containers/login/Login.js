@@ -1,6 +1,6 @@
 import React, { PureComponent } from "react";
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
-import './login.scss';
+import './login.css';
 
 const FormItem = Form.Item;
 

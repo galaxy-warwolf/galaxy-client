@@ -7,13 +7,15 @@ var GitRevisionWebpackPlugin = require("git-revision-webpack-plugin");
 
 
 module.exports = {
-	entry: [
-		"./src/index.js"
-	],
+	entry: {
+		app: [
+			"./src/index.js"
+		]
+	},
 	output: {
 		publicPath: "/",
 		path: path.join(__dirname, "dist"),
-		filename: "[chunkhash].js"
+		filename: "[name]-[chunkhash].js"
 	},
 	resolve: {
 		extensions: [".js", ".jsx"]
@@ -49,7 +51,7 @@ module.exports = {
 					loader: "json-loader"
 				}]
 			}, {
-				test: /\.scss($|\?)/,
+				test: /\.css($|\?)/,
 				use: ExtractTextPlugin.extract({
 					fallback: "style-loader",
 					use: [
@@ -65,21 +67,6 @@ module.exports = {
 						}
 					]
 				})
-			},
-			{
-				test: /\.css($|\?)/,
-				use: [
-					{
-						loader: "style-loader"
-					},
-					{
-						loader: "css-loader",
-						options: {
-							sourceMap: true,
-							localIdentName: '[name]--[local]--[hash:base64:5]'
-						}
-					}
-				]
 			},
 			{
 				test: /\.png($|\?)/,
