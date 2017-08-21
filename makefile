@@ -14,3 +14,6 @@ build-live:
 
 pre-deploy:build-ci
 	@http-server ./dist;
+
+publish:build-ci
+	@sh ./shell/publish.sh;
