@@ -51,7 +51,7 @@ module.exports = {
 					loader: "json-loader"
 				}]
 			}, {
-				test: /\.css($|\?)/,
+				test: /\.(css|scss)($|\?)/,
 				use: ExtractTextPlugin.extract({
 					fallback: "style-loader",
 					use: [

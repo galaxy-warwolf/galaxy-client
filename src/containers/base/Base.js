@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Icon, Layout, Menu } from 'antd';
-import './base.css';
+import './base.scss';
 
 const { Header, Content, Footer, Sider } = Layout;
 const SubMenu = Menu.SubMenu;
