@@ -210,7 +210,6 @@ module.exports = {
 					"react-router",
 					"react-router-redux",
 					"redux",
-					"redux-form",
 					"redux-localstorage",
 					"redux-thunk",
 					"superagent",
