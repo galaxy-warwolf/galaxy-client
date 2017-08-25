@@ -28,14 +28,14 @@ class LoginForm extends PureComponent {
 			<div className="login-container">
 				<Form onSubmit={this.handleSubmit} className="login-form">
 					<h2 className="login-header">Galaxy Admin System</h2>
-					<FormItem>
+					<FormItem hasFeedback>
 						{getFieldDecorator('userName', {
 							rules: [{ required: true, message: 'Please input your username!' }],
 						})(
 							<Input prefix={<Icon type="user" style={{ fontSize: 13 }}/>} placeholder="Username"/>
 						)}
 					</FormItem>
-					<FormItem>
+					<FormItem hasFeedback>
 						{getFieldDecorator('password', {
 							rules: [{ required: true, message: 'Please input your Password!' }],
 						})(
