@@ -26,6 +26,9 @@ if (isDeveloping) {
 			modules: false
 		}
 	});
+	middleware.waitUntilValid(() => {
+		opn(`http://0.0.0.0:${port}`);
+	})
 
 	app.use(middleware);
 	app.use(webpackHotMiddleware(compiler));
@@ -38,5 +41,5 @@ app.listen(port, '0.0.0.0', function onStart(err) {
 		console.log(err);
 	}
 	console.info('==> 🌎 Listening on port %s. Open up http://0.0.0.0:%s/ in your browser.', port, port);
-	opn(`http://0.0.0.0:${port}`);
+	// opn(`http://0.0.0.0:${port}`);
 });
