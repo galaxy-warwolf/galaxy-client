@@ -4,6 +4,7 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const GitRevisionWebpackPlugin = require("git-revision-webpack-plugin");
 const AutoDllPlugin = require('autodll-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
 	entry: {
@@ -42,7 +43,7 @@ module.exports = {
 							"add-module-exports",
 							"transform-class-properties",
 							"transform-function-bind",
-							["import", { libraryName: "antd", style: "css" }]
+							["import", {libraryName: "antd", style: "css"}]
 						],
 						compact: false
 					}
@@ -52,6 +53,19 @@ module.exports = {
 				use: [{
 					loader: "json-loader"
 				}]
+			}, {
+				test: /\.less$/,
+				use: [
+					'style-loader',
+					{
+						loader: 'css-loader',
+						options: {importLoaders: 1, sourceMap: true}
+					},
+					{
+						loader: 'less-loader',
+						options: {strictMath: true, noIeCompat: true, sourceMap: true}
+					}
+				]
 			}, {
 				test: /\.scss($|\?)/,
 				use: [
@@ -72,8 +86,7 @@ module.exports = {
 						}
 					}
 				]
-			},
-			{
+			}, {
 				test: /\.css($|\?)/,
 				use: [
 					{

@@ -28,6 +28,8 @@
     "superagent": "3.6.0"
   },
   "devDependencies": {
+    "less": "^3.0.0-alpha.3",
+    "less-loader": "^4.0.5",
     "autodll-webpack-plugin": "0.2.1",
     "babel-core": "6.26.0",
     "babel-loader": "7.1.2",

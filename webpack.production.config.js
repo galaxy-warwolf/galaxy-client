@@ -41,7 +41,7 @@ module.exports = {
 							"add-module-exports",
 							"transform-class-properties",
 							"transform-function-bind",
-							["import", { libraryName: "antd", style: "css" }]
+							["import", {libraryName: "antd", style: "css"}]
 						]
 					}
 				}]
@@ -51,24 +51,44 @@ module.exports = {
 					loader: "json-loader"
 				}]
 			}, {
-				test: /\.(css|scss)($|\?)/,
+				test: /\.less/,
 				use: ExtractTextPlugin.extract({
-					fallback: "style-loader",
+					fallback: 'style-loader',
 					use: [
 						{
-							loader: "css-loader",
+							loader: 'css-loader',
 							options: {
 								minimize: true,
-								localIdentName: '[name]--[local]--[hash:base64:5]'
+								// sourceMap: true,
+								importLoaders: 1,
+								// localIdentName: 'gg[name]--[local]--[hash:base64:5]'
 							}
 						},
 						{
-							loader: "sass-loader"
+							loader: 'less-loader',
+							// options: {strictMath: true, noIeCompat: true, sourceMap: true}
+							// options: {sourceMap: true}
 						}
 					]
 				})
-			},
-			{
+			}, {
+					test: /\.css($|\?)/,
+					use: ExtractTextPlugin.extract({
+						fallback: "style-loader",
+						use: [
+							{
+								loader: "css-loader",
+								options: {
+									minimize: true,
+									localIdentName: '[name]--[local]--[hash:base64:5]'
+								}
+							},
+							// {
+							// 	loader: "sass-loader"
+							// }
+						]
+					})
+				}, {
 				test: /\.png($|\?)/,
 				use: {
 					loader: "file-loader",
@@ -168,6 +188,7 @@ module.exports = {
 			disable: false,
 			allChunks: true
 		}),
+		// new ExtractTextPlugin("style.css"),
 		new webpack.EnvironmentPlugin([
 			"API_URL",
 			"HEADER_CLIENT"
