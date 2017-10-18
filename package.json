@@ -25,11 +25,10 @@
     "redux": "3.7.2",
     "redux-localstorage": "0.4.1",
     "redux-thunk": "2.2.0",
-    "superagent": "3.6.0"
+    "superagent": "3.6.0",
+    "webpack-bundle-analyzer": "^2.9.0"
   },
   "devDependencies": {
-    "less": "^3.0.0-alpha.3",
-    "less-loader": "^4.0.5",
     "autodll-webpack-plugin": "0.2.1",
     "babel-core": "6.26.0",
     "babel-loader": "7.1.2",
@@ -55,6 +54,8 @@
     "git-revision-webpack-plugin": "2.5.1",
     "html-webpack-plugin": "2.30.1",
     "http-server": "0.10.0",
+    "less": "^3.0.0-alpha.3",
+    "less-loader": "^4.0.5",
     "node-sass": "4.5.3",
     "opn": "^5.1.0",
     "postcss-loader": "2.0.6",
