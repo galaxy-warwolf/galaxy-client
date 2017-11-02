@@ -29,7 +29,6 @@ export default function clientMiddleware(client) {
 				}
 			).catch((error) => {
 				console.error('MIDDLEWARE ERROR:', error);
-				toastError(dispatch, client, error);
 				next({...rest, error, type: FAILURE});
 			});
 

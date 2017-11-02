@@ -1,7 +1,6 @@
 import React, { PureComponent } from "react";
 import { Button, Checkbox, Form, Icon, Input, } from 'antd';
 import { push } from 'react-router-redux';
-// import './login.css';
 import { connect } from 'react-redux';
 import './login.less'
 const FormItem = Form.Item;
