@@ -7,7 +7,7 @@ run:
 	@env-cmd config/dev.json node server.js;
 
 build-ci:
-	@env-cmd config/ci.json webpack --config webpack.production.config.js --progress --profile --colors;
+	@env-cmd config/ci.json webpack --config webpack.production.config.js --progress --profile --colors --json > state.json;
 
 build-live:
 	@env-cmd config/prod.json webpack --config webpack.production.config.js --progress --profile --colors;

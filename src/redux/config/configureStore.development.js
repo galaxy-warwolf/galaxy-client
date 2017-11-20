@@ -3,7 +3,7 @@ import thunk from "redux-thunk";
 import { createHashHistory } from "history";
 import { routerMiddleware } from "react-router-redux";
 import rootReducer from "../reducers";
-import { DevTools } from "../../containers/";
+import DevTools from "../../containers/tools/DevTools";
 import clientMiddleware from "../middleware/client";
 import ApiClient from "../../common/http-client/ApiClient";
 import persistState from "redux-localstorage";

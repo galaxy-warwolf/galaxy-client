@@ -5,7 +5,7 @@ var HtmlWebpackPlugin = require("html-webpack-plugin");
 var WebpackCleanupPlugin = require("webpack-cleanup-plugin");
 var GitRevisionWebpackPlugin = require("git-revision-webpack-plugin");
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-
+var DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin');
 
 module.exports = {
 	entry: {
@@ -39,6 +39,7 @@ module.exports = {
 						],
 						'plugins': [
 							"transform-runtime",
+							"transform-async-to-generator",
 							"transform-decorators-legacy",
 							"add-module-exports",
 							"transform-class-properties",
@@ -168,7 +169,7 @@ module.exports = {
 		]
 	},
 	plugins: [
-		new WebpackCleanupPlugin(),
+		new WebpackCleanupPlugin({ quiet: true }),
 		new webpack.DefinePlugin({
 			'process.env': {
 				'NODE_ENV': JSON.stringify('production')
@@ -183,6 +184,9 @@ module.exports = {
 				screw_ie8: true,
 				drop_console: true,
 				drop_debugger: true
+			},
+			output: {
+				comments: false,
 			}
 		}),
 		new ExtractTextPlugin({
@@ -190,7 +194,6 @@ module.exports = {
 			disable: false,
 			allChunks: true
 		}),
-		// new ExtractTextPlugin("style.css"),
 		new webpack.EnvironmentPlugin([
 			"API_URL",
 			"HEADER_CLIENT"
@@ -216,8 +219,9 @@ module.exports = {
 		}),
 		new BundleAnalyzerPlugin({
 			analyzerMode: 'static',
-			openAnalyzer: false,
+			openAnalyzer: true,
 			logLevel: 'warn'
-		})
+		}),
+		new DuplicatePackageCheckerPlugin()
 	]
 };

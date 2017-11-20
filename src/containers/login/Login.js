@@ -3,6 +3,9 @@ import { Button, Checkbox, Form, Icon, Input, } from 'antd';
 import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
 import './login.less'
+import UtilsMixin from '../../mixins/UtilsMixin';
+import { decorate } from 'react-mixin';
+
 const FormItem = Form.Item;
 
 @connect(
@@ -10,10 +13,20 @@ const FormItem = Form.Item;
 	},
 	{ push }
 )
+@decorate(UtilsMixin)
 class LoginForm extends PureComponent {
 
-	handleSubmit = (e) => {
+	async login() {
+		await this.sleep(3000)
+		return true
+	}
+
+	handleSubmit = async (e) => {
 		e.preventDefault();
+		const loginStatus = await this.login()
+		if (loginStatus) {
+			console.log("Login Success")
+		}
 		this.props.form.validateFields((err, values) => {
 			if (!err) {
 				this.props.push("/");

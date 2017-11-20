@@ -31,3 +31,6 @@ dist
 
 #Idea
 .idea
+
+#优化代码
+state.json
