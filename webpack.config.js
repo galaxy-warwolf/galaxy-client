@@ -4,7 +4,6 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const GitRevisionWebpackPlugin = require("git-revision-webpack-plugin");
 const AutoDllPlugin = require('autodll-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
 	entry: {
@@ -189,16 +188,10 @@ module.exports = {
 	plugins: [
 		new webpack.NoEmitOnErrorsPlugin(),
 		new webpack.HotModuleReplacementPlugin(),
-		new webpack.DefinePlugin({
-			'process.env.NODE_ENV': JSON.stringify('development')
-		}),
 		new webpack.LoaderOptionsPlugin({
 			debug: true
 		}),
-		new webpack.EnvironmentPlugin([
-			"API_URL",
-			"HEADER_CLIENT"
-		]),
+		new webpack.EnvironmentPlugin(Object.keys(process.env)),
 		new HtmlWebpackPlugin({
 			template: "./src/index.html",
 			title: "Galaxy",

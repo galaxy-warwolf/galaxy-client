@@ -1,5 +1,5 @@
 import React, { PureComponent } from "react";
-import { BaseLayout } from '../../containers';
+import BaseLayout from '../base/Base';
 
 export default class Home extends PureComponent {
 

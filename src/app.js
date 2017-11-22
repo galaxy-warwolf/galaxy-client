@@ -11,7 +11,10 @@ import { Route, Switch } from "react-router";
 import { createHashHistory } from "history";
 import { Provider } from "react-redux";
 import { ConnectedRouter } from 'react-router-redux'
-import { Home, Login, NoMatch } from "./containers"
+import Home from './containers/home/Home';
+import Login from './containers/login/Login';
+import NoMatch from './containers/noMatch/NoMatch';
+
 
 export default class App extends Component {
 

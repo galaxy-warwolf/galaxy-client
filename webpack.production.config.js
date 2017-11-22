@@ -6,13 +6,12 @@ var WebpackCleanupPlugin = require("webpack-cleanup-plugin");
 var GitRevisionWebpackPlugin = require("git-revision-webpack-plugin");
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 var DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin');
+var extractCSS = new ExtractTextPlugin('stylesheets/[name]-[contenthash].css');
+var extractLESS = new ExtractTextPlugin('stylesheets/[name]-[contenthash].css');
 
 module.exports = {
 	entry: {
-		app: [
-			// "babel-polyfill",
-			"./src/index.js"
-		]
+		app: "./src/index.js"
 	},
 	output: {
 		publicPath: "/",
@@ -53,45 +52,26 @@ module.exports = {
 				use: [{
 					loader: "json-loader"
 				}]
-			}, {
-				test: /\.less/,
-				use: ExtractTextPlugin.extract({
+			},
+			{
+				test: /\.css($|\?)/,
+				use: extractCSS.extract({
 					fallback: 'style-loader',
 					use: [
-						{
-							loader: 'css-loader',
-							options: {
-								minimize: true,
-								// sourceMap: true,
-								importLoaders: 1,
-								// localIdentName: 'gg[name]--[local]--[hash:base64:5]'
-							}
-						},
-						{
-							loader: 'less-loader',
-							// options: {strictMath: true, noIeCompat: true, sourceMap: true}
-							// options: {sourceMap: true}
-						}
+						{ loader: 'css-loader', options: { importLoaders: 1 } },
+					]
+				})
+
+			}, {
+				test: /\.less/,
+				use: extractLESS.extract({
+					fallback: 'style-loader',
+					use: [
+						{ loader: 'css-loader', options: { importLoaders: 1 } },
+						{ loader: 'less-loader'}
 					]
 				})
 			}, {
-					test: /\.css($|\?)/,
-					use: ExtractTextPlugin.extract({
-						fallback: "style-loader",
-						use: [
-							{
-								loader: "css-loader",
-								options: {
-									minimize: true,
-									localIdentName: '[name]--[local]--[hash:base64:5]'
-								}
-							},
-							// {
-							// 	loader: "sass-loader"
-							// }
-						]
-					})
-				}, {
 				test: /\.png($|\?)/,
 				use: {
 					loader: "file-loader",
@@ -169,14 +149,12 @@ module.exports = {
 		]
 	},
 	plugins: [
+		// 用来清除dist目录
 		new WebpackCleanupPlugin({ quiet: true }),
-		new webpack.DefinePlugin({
-			'process.env': {
-				'NODE_ENV': JSON.stringify('production')
-			}
-		}),
+		// https://webpack.js.org/plugins/loader-options-plugin/
 		new webpack.LoaderOptionsPlugin({
-			debug: false
+			debug: false,
+			minimize: true
 		}),
 		new webpack.optimize.UglifyJsPlugin({
 			compress: {
@@ -189,37 +167,28 @@ module.exports = {
 				comments: false,
 			}
 		}),
-		new ExtractTextPlugin({
-			filename: "[contenthash].css",
-			disable: false,
-			allChunks: true
-		}),
-		new webpack.EnvironmentPlugin([
-			"API_URL",
-			"HEADER_CLIENT"
-		]),
+		extractCSS,
+		extractLESS,
+		new webpack.EnvironmentPlugin(Object.keys(process.env)),
+		// https://github.com/jantimon/html-webpack-plugin#configuration
 		new HtmlWebpackPlugin({
 			template: "./src/index.html",
 			title: "Galaxy",
 			version: (new GitRevisionWebpackPlugin()).version(),
-			commithash: (new GitRevisionWebpackPlugin()).commithash()
+			commithash: (new GitRevisionWebpackPlugin()).commithash(),
+			minify: {
+				collapseWhitespace: true
+			}
 		}),
 		new webpack.optimize.CommonsChunkPlugin({
-			name: 'vendor',
-			minChunks: function (module, count) {
-				// any required modules inside node_modules are extracted to vendor
-				return (
-					module.resource &&
-					/\.js$/.test(module.resource) &&
-					module.resource.indexOf(
-						path.join(__dirname, 'node_modules')
-					) === 0
-				)
+			name: "vendor",
+			minChunks: function(module) {
+				return module.context && module.context.indexOf("node_modules") !== -1;
 			}
 		}),
 		new BundleAnalyzerPlugin({
 			analyzerMode: 'static',
-			openAnalyzer: true,
+			openAnalyzer: false,
 			logLevel: 'warn'
 		}),
 		new DuplicatePackageCheckerPlugin()
