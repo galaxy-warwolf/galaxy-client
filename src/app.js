@@ -7,39 +7,46 @@
  */
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Route, Switch } from "react-router";
+import { Redirect, Route, Switch } from "react-router";
 import { createHashHistory } from "history";
 import { Provider } from "react-redux";
 import { ConnectedRouter } from 'react-router-redux'
-import Home from './containers/home/Home';
 import Login from './containers/login/Login';
 import NoMatch from './containers/noMatch/NoMatch';
-import Chart from './containers/chart/Chart';
 import BaseLayout from './containers/base/Base';
+import Chart from './containers/chart/Chart';
+import Home from './containers/home/Home';
 
 export default class App extends Component {
 
+	constructor(props) {
+		super(props)
+		this.logined = true
+	}
+
 	render() {
 		const history = createHashHistory();
-		const Base = (component) => (
-			() => (
-				<BaseLayout>
-					{
-						React.createElement(component)
-					}
-				</BaseLayout>
-			)
+		const Admin = (props) => (
+			<BaseLayout>
+				<Switch>
+					<Route path={'/chart'} component={Chart}/>
+					<Route path={'/dashboard'} component={Home}/>
+					<Route exact path={'/'} render={() => (<Redirect to="/dashboard"/>)}/>
+					<Route component={NoMatch}/>
+				</Switch>
+			</BaseLayout>
 		)
+
 		return (
 			<Provider {...this.props}>
 				{/* ConnectedRouter will use the store from Provider automatically */}
 				<ConnectedRouter history={history}>
 					<div>
 						<Switch>
-							<Route exact path="/" component={Base(Home)} />
-							<Route path="/chart" component={Base(Chart)} />
 							<Route path="/login" component={Login}/>
-							<Route component={NoMatch}/>
+							<Route path="/" render={() => (
+								this.logined ? <Admin/> : <Redirect to="/login"/>
+							)}/>
 						</Switch>
 					</div>
 				</ConnectedRouter>

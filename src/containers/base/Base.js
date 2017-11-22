@@ -1,71 +1,124 @@
 import React, { Component } from "react";
+import { push } from 'react-router-redux';
+import { connect } from 'react-redux';
 import { Icon, Layout, Menu } from 'antd';
+import _ from "lodash";
 import './base.less';
 
 const { Header, Content, Footer, Sider } = Layout;
 const SubMenu = Menu.SubMenu;
 
+@connect(
+	(state) => ({
+		routing: state.routing
+	}),
+	{ push }
+)
 export default class BaseLayout extends Component {
 
 	state = {
 		collapsed: false,
+		selectedKeys: [],
+		openKeys: []
 	};
+
 	toggle = () => {
 		this.setState({
 			collapsed: !this.state.collapsed,
 		});
 	};
 
+	componentWillReceiveProps(nextProps) {
+		const { pathname } = this.props.routing.location;
+		const _pathname = nextProps.routing.location.pathname;
+		if (pathname !== _pathname) {
+			this.openRelatedMenuByPathName(_pathname)
+		}
+	}
+
+	componentDidMount() {
+		const { pathname } = this.props.routing.location;
+		this.openRelatedMenuByPathName(pathname)
+	}
+
+	openRelatedMenuByPathName(_pathname) {
+		if (!_pathname) {
+			console.warn("无效的pathname, 不做处理", _pathname);
+			return
+		}
+		const keyPath = _pathname.split("/");
+		_.remove(keyPath, (value) => (!value));
+		let selectKey;
+		let openKey;
+		if (keyPath.length === 0) {
+			selectKey = '/dashboard'
+		} else if (keyPath.length === 1) {
+			selectKey = `/${keyPath[0]}`
+		} else if (keyPath.length === 2) {
+			openKey = `/${keyPath[0]}`
+			selectKey = `/${keyPath[1]}`
+		} else {
+			console.warn("暂不支持三层结构.")
+		}
+		const state = { selectedKeys: [selectKey] }
+		if (openKey) state['openKeys'] = [openKey]
+		this.setState(state)
+	}
+
+	linkTo = (item) => {
+		const { pathname } = this.props.routing.location
+		const { keyPath } = item
+		const path = _.join(_.reverse(keyPath), "")
+		console.log(path);
+		if (pathname !== path) {
+			this.props.push(path)
+		}
+	}
+
+	openSubMenu = (item) => {
+		const { openKeys } = this.state;
+		const { key } = item;
+		if (openKeys.indexOf(key) > -1) {
+			_.remove(openKeys, (value) => value === key)
+		} else {
+			openKeys.push(key)
+		}
+		this.setState({ openKeys })
+	}
+
 	render() {
+		const { selectedKeys, collapsed, openKeys } = this.state
 		return (
 			<Layout>
 				<Sider
 					trigger={null}
 					collapsible
-					collapsed={this.state.collapsed}
+					collapsed={collapsed}
 					style={{ height: '100vh' }}
 				>
 					<div className="logo"/>
-					<Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
-						<Menu.Item key="1">
-							<Icon type="user"/>
-							<span className="nav-text">nav 1</span>
-						</Menu.Item>
-						<Menu.Item key="2">
-							<Icon type="video-camera"/>
-							<span className="nav-text">nav 2</span>
-						</Menu.Item>
-						<Menu.Item key="3">
-							<Icon type="upload"/>
-							<span className="nav-text">nav 3</span>
-						</Menu.Item>
-						<Menu.Item key="4">
-							<Icon type="bar-chart"/>
-							<span className="nav-text">nav 4</span>
-						</Menu.Item>
-						<Menu.Item key="5">
-							<Icon type="cloud-o"/>
-							<span className="nav-text">nav 5</span>
-						</Menu.Item>
-						<Menu.Item key="6">
+					<Menu theme="dark" mode="inline"
+						  defaultSelectedKeys={['/dashboard']}
+						  selectedKeys={selectedKeys}
+						  openKeys={openKeys}
+						  onClick={this.linkTo}>
+						<Menu.Item key="/dashboard">
 							<Icon type="appstore-o"/>
-							<span className="nav-text">nav 6</span>
+							<span className="nav-text">首页</span>
 						</Menu.Item>
-						<Menu.Item key="7">
-							<Icon type="team"/>
-							<span className="nav-text">nav 7</span>
-						</Menu.Item>
-						<Menu.Item key="8">
-							<Icon type="shop"/>
-							<span className="nav-text">nav 8</span>
+
+						<Menu.Item key="/chart">
+							<Icon type="bar-chart"/>
+							<span className="nav-text">图表</span>
 						</Menu.Item>
 						<SubMenu
-							key="sub1"
-							title={<span><Icon type="user"/><span>User</span></span>}
+							key="/more"
+							title={<span><Icon type="user"/><span>More</span></span>}
+							onTitleClick={this.openSubMenu}
 						>
-							<Menu.Item key="9">Tom</Menu.Item>
-							<Menu.Item key="10">Bill</Menu.Item>
-							<Menu.Item key="11">Alex</Menu.Item>
+							<Menu.Item key="/9">Tom</Menu.Item>
+							<Menu.Item key="/10">Bill</Menu.Item>
+							<Menu.Item key="/11">Alex</Menu.Item>
 						</SubMenu>
 					</Menu>
 				</Sider>
