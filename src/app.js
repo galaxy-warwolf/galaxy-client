@@ -14,8 +14,7 @@ import { ConnectedRouter } from 'react-router-redux'
 import Login from './containers/login/Login';
 import NoMatch from './containers/noMatch/NoMatch';
 import BaseLayout from './containers/base/Base';
-import Chart from './containers/chart/Chart';
-import Home from './containers/home/Home';
+import Loadable from 'react-loadable';
 
 export default class App extends Component {
 
@@ -29,13 +28,27 @@ export default class App extends Component {
 		const Admin = (props) => (
 			<BaseLayout>
 				<Switch>
-					<Route path={'/chart'} component={Chart}/>
-					<Route path={'/dashboard'} component={Home}/>
+					<Route path={'/chart'} component={LoadableChart}/>
+					<Route path={'/dashboard'} component={LoadableHome}/>
 					<Route exact path={'/'} render={() => (<Redirect to="/dashboard"/>)}/>
 					<Route component={NoMatch}/>
 				</Switch>
 			</BaseLayout>
 		)
+
+		const LoadableHome = Loadable({
+			loader: () => import('./containers/home/Home'),
+			loading() {
+				return <div>Loading...</div>
+			}
+		});
+
+		const LoadableChart = Loadable({
+			loader: () => import('./containers/chart/Chart'),
+			loading() {
+				return <div>Loading...</div>
+			}
+		});
 
 		return (
 			<Provider {...this.props}>
