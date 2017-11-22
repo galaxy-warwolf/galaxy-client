@@ -2,9 +2,9 @@ import React, { PureComponent } from "react";
 import { Button, Checkbox, Form, Icon, Input, } from 'antd';
 import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
-import './login.less'
 import UtilsMixin from '../../mixins/UtilsMixin';
 import { decorate } from 'react-mixin';
+import './login.less'
 
 const FormItem = Form.Item;
 

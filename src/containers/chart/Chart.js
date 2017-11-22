@@ -1,13 +1,12 @@
 import React, { PureComponent } from "react";
 
-export default class Home extends PureComponent {
+export default class Chart extends PureComponent {
 
 	render() {
 		return (
 			<div>
-				首页
+				图表
 			</div>
-
 		);
 	}
 }

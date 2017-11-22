@@ -14,19 +14,30 @@ import { ConnectedRouter } from 'react-router-redux'
 import Home from './containers/home/Home';
 import Login from './containers/login/Login';
 import NoMatch from './containers/noMatch/NoMatch';
-
+import Chart from './containers/chart/Chart';
+import BaseLayout from './containers/base/Base';
 
 export default class App extends Component {
 
 	render() {
 		const history = createHashHistory();
+		const Base = (component) => (
+			() => (
+				<BaseLayout>
+					{
+						React.createElement(component)
+					}
+				</BaseLayout>
+			)
+		)
 		return (
 			<Provider {...this.props}>
 				{/* ConnectedRouter will use the store from Provider automatically */}
 				<ConnectedRouter history={history}>
 					<div>
 						<Switch>
-							<Route exact path="/" component={Home}/>
+							<Route exact path="/" component={Base(Home)} />
+							<Route path="/chart" component={Base(Chart)} />
 							<Route path="/login" component={Login}/>
 							<Route component={NoMatch}/>
 						</Switch>
