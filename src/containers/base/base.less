@@ -1,18 +1,31 @@
-.trigger {
+:local {
+  .trigger {
     font-size: 18px;
     line-height: 64px;
     padding: 0 16px;
     cursor: pointer;
     transition: color .3s;
-}
 
-.trigger:hover {
-    color: #108ee9;
-}
+    &:hover {
+      color: #108ee9;
+    }
+  }
 
-.logo {
+  .logo {
     height: 32px;
     background: #333;
     border-radius: 6px;
     margin: 16px;
+  }
+
+  .header_func {
+    float: right;
+    padding-right: 16px;
+    line-height: 64px;
+  }
+
+  .header_menu {
+    float: right;
+    line-height: 64px;
+  }
 }

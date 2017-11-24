@@ -3,7 +3,8 @@ import { push } from 'react-router-redux';
 import { connect } from 'react-redux';
 import { Icon, Layout, Menu } from 'antd';
 import _ from "lodash";
-import './base.less';
+import styles from './base.less';
+import { logout } from "../../redux/actions/AuthActions";
 
 const { Header, Content, Footer, Sider } = Layout;
 const SubMenu = Menu.SubMenu;
@@ -12,7 +13,7 @@ const SubMenu = Menu.SubMenu;
 	(state) => ({
 		routing: state.routing
 	}),
-	{ push }
+	{ push, logout }
 )
 export default class BaseLayout extends Component {
 
@@ -30,9 +31,9 @@ export default class BaseLayout extends Component {
 
 	componentWillReceiveProps(nextProps) {
 		const { pathname } = this.props.routing.location;
-		const _pathname = nextProps.routing.location.pathname;
-		if (pathname !== _pathname) {
-			this.openRelatedMenuByPathName(_pathname)
+		const nextLocation = nextProps.routing.location;
+		if (nextLocation && pathname !== nextLocation.pathname) {
+			this.openRelatedMenuByPathName(nextLocation.pathname)
 		}
 	}
 
@@ -86,6 +87,10 @@ export default class BaseLayout extends Component {
 		this.setState({ openKeys })
 	}
 
+	handleClickMenu = (e) => {
+		e.key === 'logout' && this.props.logout();
+	};
+
 	render() {
 		const { selectedKeys, collapsed, openKeys } = this.state
 		return (
@@ -96,7 +101,7 @@ export default class BaseLayout extends Component {
 					collapsed={collapsed}
 					style={{ height: '100vh' }}
 				>
-					<div className="logo"/>
+					<div className={styles.logo}/>
 					<Menu theme="dark" mode="inline"
 						  defaultSelectedKeys={['/dashboard']}
 						  selectedKeys={selectedKeys}
@@ -125,10 +130,21 @@ export default class BaseLayout extends Component {
 				<Layout>
 					<Header style={{ background: '#fff', padding: 0 }}>
 						<Icon
-							className="trigger"
+							className={styles.trigger}
 							type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
 							onClick={this.toggle}
 						/>
+						<div className={styles.header_func}>
+							<Menu mode="horizontal" onClick={this.handleClickMenu}>
+								<SubMenu
+									className={styles.header_menu}
+									title={<span><Icon type="user"/>{name}</span>}>
+									<Menu.Item key="logout">
+										登出
+									</Menu.Item>
+								</SubMenu>
+							</Menu>
+						</div>
 					</Header>
 					<Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
 						<div style={{ padding: 24, background: '#fff', minHeight: 360 }}>

@@ -1,6 +1,7 @@
 import { combineReducers } from "redux";
 import { routerReducer } from "react-router-redux";
-import { LOGOUT_SUCCESS } from "../../common/constants";
+import { LOGOUT_SUCCESS } from '../../common/constants/Actions';
+import auth from './auth';
 
 /**
  * combineReducers is important to understand. As your app might grow in size
@@ -16,7 +17,8 @@ import { LOGOUT_SUCCESS } from "../../common/constants";
  * More info: http://rackt.org/redux/docs/api/combineReducers.html
  */
 const appReducer = combineReducers({
-	routing: routerReducer
+	routing: routerReducer,
+	auth
 });
 
 
