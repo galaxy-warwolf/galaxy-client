@@ -9,8 +9,7 @@ import './login.less'
 const FormItem = Form.Item;
 
 @connect(
-	(state) => {
-	},
+	(state) => ({}),
 	{ push }
 )
 @decorate(UtilsMixin)

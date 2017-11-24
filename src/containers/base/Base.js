@@ -70,7 +70,6 @@ export default class BaseLayout extends Component {
 		const { pathname } = this.props.routing.location
 		const { keyPath } = item
 		const path = _.join(_.reverse(keyPath), "")
-		console.log(path);
 		if (pathname !== path) {
 			this.props.push(path)
 		}
