@@ -5,29 +5,21 @@ import { connect } from 'react-redux';
 import UtilsMixin from '../../mixins/UtilsMixin';
 import { decorate } from 'react-mixin';
 import './login.less'
-
+import {auth} from '../../redux/actions/AuthActions';
 const FormItem = Form.Item;
 
 @connect(
 	(state) => ({}),
-	{ push }
+	{ push, auth }
 )
 @decorate(UtilsMixin)
 class LoginForm extends PureComponent {
 
-	async login() {
-		await this.sleep(3000)
-		return true
-	}
-
 	handleSubmit = async (e) => {
 		e.preventDefault();
-		const loginStatus = await this.login()
-		if (loginStatus) {
-			console.log("Login Success")
-		}
-		this.props.form.validateFields((err, values) => {
+		this.props.form.validateFields(async (err, values) => {
 			if (!err) {
+				await this.props.auth(values);
 				this.props.push("/");
 			}
 		});
@@ -40,7 +32,7 @@ class LoginForm extends PureComponent {
 				<Form onSubmit={this.handleSubmit} className="login-form">
 					<h2 className="login-header">Galaxy Admin System</h2>
 					<FormItem hasFeedback>
-						{getFieldDecorator('userName', {
+						{getFieldDecorator('username', {
 							rules: [{ required: true, message: 'Please input your username!' }],
 						})(
 							<Input prefix={<Icon type="user" style={{ fontSize: 13 }}/>} placeholder="Username"/>

@@ -10,6 +10,7 @@ export default function reducer(state = initialState, action = {}) {
 		case AUTH:
 			return state;
 		case AUTH_SUCCESS:
+			console.log(action, "<======action");
 			return {
 				...state,
 				...action.result

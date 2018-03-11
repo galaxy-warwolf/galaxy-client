@@ -1,12 +1,12 @@
 /* eslint no-console: 0 */
 
-const path = require('path');
 const express = require('express');
 const webpack = require('webpack');
 const opn = require('opn')
 const webpackMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const config = require('./webpack.config.js');
+const proxy = require('http-proxy-middleware')
 
 const isDeveloping = process.env.NODE_ENV !== 'production';
 const port = isDeveloping ? 3000 : process.env.PORT;
@@ -30,8 +30,20 @@ if (isDeveloping) {
 		opn(`http://0.0.0.0:${port}`);
 	})
 
+	const context = [`/api/*`];
+
+	//options可选的配置参数请自行看readme.md文档，通常只需要配置target，也就是你的api所属的域名。
+	const options = {
+		target: process.env.API_URL,
+		changeOrigin: true
+	}
+
+	//将options对象用proxy封装起来，作为参数传递
+	const apiProxy = proxy(options)
+
 	app.use(middleware);
 	app.use(webpackHotMiddleware(compiler));
+	app.use(context, apiProxy)
 } else {
 	app.use(express.static(__dirname + '/dist'));
 }

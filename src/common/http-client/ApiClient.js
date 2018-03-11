@@ -14,8 +14,6 @@ export default class ApiClient {
 
 	token;
 
-	client = process.env.HEADER_CLIENT;
-
 	method;
 
 	setToken(token) {
@@ -111,10 +109,6 @@ export default class ApiClient {
 
 						if (this.token) {
 							request.set('Authorization', 'bearer ' + this.token);
-						}
-
-						if (this.client) {
-							request.set('Client', this.client);
 						}
 
 						if (data) {
